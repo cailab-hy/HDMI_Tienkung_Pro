@@ -1,0 +1,3 @@
+- algo=ppo_roa_train
+- task=G1/hdmi/move_suitcase
+- +task.command.replay_motion=true

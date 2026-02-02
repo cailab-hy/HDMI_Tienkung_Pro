@@ -1,0 +1,9 @@
+[34m[1mwandb[0m: [33mWARNING[0m Saving files without folders. If you want to preserve subdirectories pass base_path to wandb.save, i.e. wandb.save("/mnt/folder/file.h5", base_path="/mnt")
+[34m[1mwandb[0m: [33mWARNING[0m Symlinked 1 file into the W&B run directory; call wandb.save again to sync new files.
+[33mDiscard obs group depth as it is not used.[0m
+Importing terrains from /home/cai/HDMI/active_adaptation/envs/terrain/wrapper.py
+Importing terrains from /home/cai/HDMI/active_adaptation/envs/terrain/regular.py
+Using object type bread_box with asset /home/cai/HDMI/active_adaptation/assets/objects/bread_box/bread_box.usd
+Randomized bread_box scale to (0.9, 1.1)
+/home/cai/HDMI/active_adaptation/envs/terrain/wrapper.py:86: UserWarning: Hacking TerrainImporter. Check IsaacLab regularly for updates and compatibility.
+  warnings.warn("Hacking TerrainImporter. Check IsaacLab regularly for updates and compatibility.")

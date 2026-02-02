@@ -1,0 +1,22 @@
+[2026-01-30 21:43:52,204][asyncio][DEBUG] - Using selector: EpollSelector
+[2026-01-30 21:43:58,176][h5py._conv][DEBUG] - Creating converter from 7 to 5
+[2026-01-30 21:43:58,177][h5py._conv][DEBUG] - Creating converter from 5 to 7
+[2026-01-30 21:43:58,177][h5py._conv][DEBUG] - Creating converter from 7 to 5
+[2026-01-30 21:43:58,177][h5py._conv][DEBUG] - Creating converter from 5 to 7
+[2026-01-30 21:43:58,278][matplotlib][DEBUG] - matplotlib data path: /home/cai/anaconda3/envs/hdmi/lib/python3.10/site-packages/matplotlib/mpl-data
+[2026-01-30 21:43:58,285][matplotlib][DEBUG] - CONFIGDIR=/home/cai/.config/matplotlib
+[2026-01-30 21:43:58,286][matplotlib][DEBUG] - interactive is False
+[2026-01-30 21:43:58,287][matplotlib][DEBUG] - platform is linux
+[2026-01-30 21:43:58,557][matplotlib][DEBUG] - CACHEDIR=/home/cai/.cache/matplotlib
+[2026-01-30 21:43:58,560][matplotlib.font_manager][DEBUG] - Using fontManager instance from /home/cai/.cache/matplotlib/fontlist-v390.json
+[2026-01-30 21:44:01,208][asyncio][DEBUG] - Using selector: EpollSelector
+[2026-01-30 21:44:01,256][git.cmd][DEBUG] - Popen(['git', 'version'], cwd=/home/cai/HDMI/outputs/2026-01-30/21-43-51-TienkungProCarryAndPlaceBreadBox-ppo_roa, stdin=None, shell=False, universal_newlines=False)
+[2026-01-30 21:44:01,262][git.cmd][DEBUG] - Popen(['git', 'version'], cwd=/home/cai/HDMI/outputs/2026-01-30/21-43-51-TienkungProCarryAndPlaceBreadBox-ppo_roa, stdin=None, shell=False, universal_newlines=False)
+[2026-01-30 21:44:01,264][git.util][DEBUG] - sys.platform='linux', git_executable='git'
+[2026-01-30 21:44:01,265][git.cmd][DEBUG] - Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/cai/HDMI, stdin=None, shell=False, universal_newlines=False)
+[2026-01-30 21:44:01,316][urllib3.connectionpool][DEBUG] - Starting new HTTPS connection (1): api.wandb.ai:443
+[2026-01-30 21:44:01,556][urllib3.connectionpool][DEBUG] - https://api.wandb.ai:443 "POST /graphql HTTP/11" 200 None
+[2026-01-30 21:44:01,748][urllib3.connectionpool][DEBUG] - https://api.wandb.ai:443 "POST /graphql HTTP/11" 200 None
+[2026-01-30 21:44:01,799][sentry_sdk.errors][DEBUG] - [Tracing] Create new propagation context: {'trace_id': '37e0dadc935048448e3f0526d2f7fce6', 'span_id': '840fd3867234582c', 'parent_span_id': None, 'dynamic_sampling_context': None}
+[2026-01-30 21:44:02,015][git.util][DEBUG] - sys.platform='linux', git_executable='git'
+[2026-01-30 21:44:02,019][git.cmd][DEBUG] - Popen(['git', 'cat-file', '--batch-check'], cwd=/home/cai/HDMI, stdin=<valid stream>, shell=False, universal_newlines=False)

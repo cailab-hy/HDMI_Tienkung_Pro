@@ -11,6 +11,7 @@ active_adaptation/assets/base.py
 active_adaptation/assets/g1.py
 active_adaptation/assets/objects.py
 active_adaptation/assets/spawn.py
+active_adaptation/assets/tienkung_pro.py
 active_adaptation/assets_mjcf/__init__.py
 active_adaptation/envs/__init__.py
 active_adaptation/envs/base.py
@@ -53,6 +54,8 @@ active_adaptation/utils/helpers.py
 active_adaptation/utils/liveplot.py
 active_adaptation/utils/math.py
 active_adaptation/utils/motion.py
+active_adaptation/utils/motion_G1.py
+active_adaptation/utils/motion_copy.py
 active_adaptation/utils/spline.py
 active_adaptation/utils/symmetry.py
 active_adaptation/utils/torchrl.py

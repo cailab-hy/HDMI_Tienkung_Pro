@@ -249,8 +249,8 @@ def main(cfg):
             # td_.update(td["next"])
             episode_stats.add(td)
 
-            # if len(episode_stats) >= env.num_envs:
-            #     print("Step", i)
+            if len(episode_stats) >= env.num_envs:
+                print("\nStep", i)
             #     for k, v in sorted(episode_stats.pop().items(True, True)):
             #         print(k, torch.mean(v).item())
     

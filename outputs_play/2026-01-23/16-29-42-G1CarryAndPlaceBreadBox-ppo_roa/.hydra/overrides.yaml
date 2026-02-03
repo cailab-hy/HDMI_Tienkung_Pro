@@ -1,3 +1,0 @@
-- algo=ppo_roa_train
-- task=G1/hdmi/carry_and_place_bread_box
-- +task.command.replay_motion=true

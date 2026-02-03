@@ -173,36 +173,48 @@ class MotionDataset:
         meta = metas[0]
 
         motion_paths = [path / "motion.npz" for path in motion_paths]
-
         motions = []
         total_length = 0
+
         for i, motion_path in enumerate(tqdm(motion_paths)):
-            motion = dict(np.load(motion_path, allow_pickle=True))
-            motion = interpolate(motion, source_fps=meta["fps"], target_fps=target_fps)
+            # motion = dict(np.load(motion_path, allow_pickle=True))
+            motion = np.load(motion_path, allow_pickle=True)
+            # motion = interpolate(motion, source_fps=meta["fps"], target_fps=target_fps)
             total_length += motion["body_pos_w"].shape[0]
             motions.append(motion)
         
-        # if isaac_joint_names is not None:
-        #     share_joint_names = [name for name in meta["joint_names"] if name in isaac_joint_names]
-        #     src_joint_indices = [meta["joint_names"].index(name) for name in share_joint_names]
-        #     dst_joint_indices = [isaac_joint_names.index(name) for name in share_joint_names]
+        if isaac_joint_names is not None:
+            # 모션 NPZ 파일에 저장된 조인트들의 순서 중 Isaac Sim 환경의 로봇과 공통된 조인트 이름들
+            share_joint_names = [name for name in meta["joint_names"] if name in isaac_joint_names]
 
-        #     more_joint_names = [name for name in meta["joint_names"] if name not in isaac_joint_names]
-        #     src_more_joint_indices = [meta["joint_names"].index(name) for name in more_joint_names]
-        #     dst_more_joint_indices = [len(isaac_joint_names) + i for i in range(len(more_joint_names))]
+            # 모션 NPZ 파일에 저장된 조인트들의 순서
+            src_joint_indices = [meta["joint_names"].index(name) for name in share_joint_names]
 
-        #     joint_names = isaac_joint_names + more_joint_names
-        #     src_joint_indices = src_joint_indices + src_more_joint_indices
-        #     dst_joint_indices = dst_joint_indices + dst_more_joint_indices
+            # Isaac Sim 환경의 로봇에 맞춘 목표 위치
+            dst_joint_indices = [isaac_joint_names.index(name) for name in share_joint_names]
 
-        #     for motion in motions:
-        #         joint_pos = np.zeros((motion["joint_pos"].shape[0], len(joint_names)))
-        #         joint_vel = np.zeros((motion["joint_vel"].shape[0], len(joint_names)))
-        #         joint_pos[:, dst_joint_indices] = motion["joint_pos"][:, src_joint_indices]
-        #         joint_vel[:, dst_joint_indices] = motion["joint_vel"][:, src_joint_indices]
-        #         motion["joint_pos"] = joint_pos
-        #         motion["joint_vel"] = joint_vel
-        #     meta["joint_names"] = joint_names
+            print(f"\nsrc_joint_indices: {src_joint_indices}")
+            print(f"dst_joint_indices: {dst_joint_indices}\n")
+
+            more_joint_names = [name for name in meta["joint_names"] if name not in isaac_joint_names]
+            src_more_joint_indices = [meta["joint_names"].index(name) for name in more_joint_names]
+            dst_more_joint_indices = [len(isaac_joint_names) + i for i in range(len(more_joint_names))]
+
+            joint_names = isaac_joint_names + more_joint_names
+            src_joint_indices = src_joint_indices + src_more_joint_indices
+            dst_joint_indices = dst_joint_indices + dst_more_joint_indices
+
+            for motion in motions:
+                joint_pos = np.zeros((motion["joint_pos"].shape[0], len(joint_names)))
+                joint_vel = np.zeros((motion["joint_vel"].shape[0], len(joint_names)))
+
+                #  모션 데이터의 조인트 순서(src_joint_indices)를 Isaac 환경의 조인트 순서(dst_joint_indices)로 재배열
+                joint_pos[:, dst_joint_indices] = motion["joint_pos"][:, src_joint_indices]
+                joint_vel[:, dst_joint_indices] = motion["joint_vel"][:, src_joint_indices]
+               
+                motion["joint_pos"] = joint_pos
+                motion["joint_vel"] = joint_vel
+            meta["joint_names"] = joint_names
         
         TensorClass = MemoryMappedTensor if memory_mapped else torch
 
@@ -232,7 +244,7 @@ class MotionDataset:
             body_ang_vel_w[start_idx:start_idx + motion_length] = torch.as_tensor(motion["body_ang_vel_w"])
             joint_pos[start_idx:start_idx + motion_length] = torch.as_tensor(motion["joint_pos"])
             joint_vel[start_idx:start_idx + motion_length] = torch.as_tensor(motion["joint_vel"])
-            
+
             starts.append(start_idx)
             start_idx += motion_length
             ends.append(start_idx)

@@ -62,13 +62,18 @@ class RobotTracking(Command):
         self.tracking_body_indices_motion = [self.dataset.body_names.index(name) for name in self.tracking_keypoint_names]
         self.tracking_body_indices_asset = [self.asset.body_names.index(name) for name in self.tracking_keypoint_names]
 
+        # isaac_idx
         self.tracking_joint_names = self.asset.find_joints(tracking_joint_names)[1]
+
+        # isaac_idx
         self.tracking_joint_indices_motion = [self.dataset.joint_names.index(name) for name in self.tracking_joint_names]
+
+        # isaac_idx
         self.tracking_joint_indices_asset = [self.asset.joint_names.index(name) for name in self.tracking_joint_names]
 
-        print("=== Asset Joint Names by Index ===")
-        for idx, joint_name in enumerate(self.asset.joint_names):
-            print(f"[{idx:2d}] {joint_name}")
+        # print("=== Asset Joint Names by Index ===")
+        # for idx, joint_name in enumerate(self.asset.joint_names):
+        #     print(f"[{idx:2d}] {joint_name}")
 
         self.num_tracking_bodies = len(self.tracking_body_indices_asset)
         self.num_tracking_joints = len(self.tracking_joint_indices_asset)
@@ -185,6 +190,7 @@ class RobotTracking(Command):
         self.asset.write_root_link_pose_to_sim(torch.cat([positions, orientations], dim=-1), env_ids=env_ids)
         self.asset.write_root_com_velocity_to_sim(velocities, env_ids=env_ids)
 
+        # Load the Dataset's Joint Positions and Velocities
         init_joint_pos = motion.joint_pos[:, self.asset_joint_idx_motion]
         init_joint_vel = motion.joint_vel[:, self.asset_joint_idx_motion]
 
@@ -269,7 +275,6 @@ class RobotTracking(Command):
         self.robot_body_quat_w = self.asset.data.body_link_quat_w[:, self.tracking_body_indices_asset]
         self.robot_body_ang_vel_w = self.asset.data.body_com_ang_vel_w[:, self.tracking_body_indices_asset]
         self.robot_joint_pos = self.asset.data.joint_pos[:, self.tracking_joint_indices_asset]
-        # print(f"all joint positions: {self.asset.data.joint_pos}")
         self.robot_joint_vel = self.asset.data.joint_vel[:, self.tracking_joint_indices_asset]
         self.robot_root_pos_w = self.asset.data.root_link_pos_w
         self.robot_root_quat_w = self.asset.data.root_link_quat_w

@@ -1,4 +1,0 @@
-- algo=ppo_roa_train
-- task=tienkung_pro/hdmi/carry_and_place_bread_box
-- +task.command.replay_motion=true
-- +task.command.record_motion=true

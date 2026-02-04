@@ -9,7 +9,7 @@ ASSET_PATH = os.path.dirname(__file__)
 
 TIENKUNG_PRO_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"{ASSET_PATH}" + "/tienkung_pro/usd/tiangong2.0_pro_edit_joint_limit.usd",
+        usd_path=f"{ASSET_PATH}" + "/tienkung_pro/usd/tiangong2.0_pro_training.usd",
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,

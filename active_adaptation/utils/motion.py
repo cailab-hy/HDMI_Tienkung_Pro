@@ -177,8 +177,7 @@ class MotionDataset:
         total_length = 0
 
         for i, motion_path in enumerate(tqdm(motion_paths)):
-            # motion = dict(np.load(motion_path, allow_pickle=True))
-            motion = np.load(motion_path, allow_pickle=True)
+            motion = dict(np.load(motion_path, allow_pickle=True))
             # motion = interpolate(motion, source_fps=meta["fps"], target_fps=target_fps)
             total_length += motion["body_pos_w"].shape[0]
             motions.append(motion)

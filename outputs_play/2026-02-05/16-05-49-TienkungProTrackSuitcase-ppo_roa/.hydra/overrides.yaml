@@ -1,0 +1,3 @@
+- algo=ppo_roa_train
+- task=tienkung_pro/hdmi/move_suitcase
+- +task.command.replay_motion=true

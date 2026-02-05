@@ -976,62 +976,6 @@
     <child link="right_tcp_link" />
     <axis xyz="0 0 0" />
   </joint>
-  <link name="camera_body_front_link">
-    <inertial>
-      <origin xyz="0.023316 0.000241 -0.013373" rpy="0 0 0" />
-      <mass value="0.1" />
-      <inertia ixx="1.5e-05" ixy="1e-06" ixz="-1e-06" iyy="0.000127" iyz="0.0" izz="0.000127" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="./meshes_decimated/camera_body_front_link.STL" />
-      </geometry>
-      <material name="">
-        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="./meshes_decimated/camera_body_front_link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint name="camera_body_front_joint" type="fixed">
-    <origin xyz="0.090583 0.02375 0.039012" rpy="-2.1468 0 -1.5708" />
-    <parent link="body_yaw_link" />
-    <child link="camera_body_front_link" />
-    <axis xyz="0 0 0" />
-  </joint>
-  <link name="camera_body_back_link">
-    <inertial>
-      <origin xyz="0.023316 0.000241 -0.013373" rpy="0 0 0" />
-      <mass value="0.1" />
-      <inertia ixx="1.5e-05" ixy="1e-06" ixz="-1e-06" iyy="0.000127" iyz="0.0" izz="0.000127" />
-    </inertial>
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="./meshes_decimated/camera_body_back_link.STL" />
-      </geometry>
-      <material name="">
-        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="../meshes_decimated/camera_body_back_link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint name="camera_body_back_joint" type="fixed">
-    <origin xyz="-0.11363 0.02375 0.2746" rpy="2.0071 0 -1.5708" />
-    <parent link="body_yaw_link" />
-    <child link="camera_body_back_link" />
-    <axis xyz="0 0 0" />
-  </joint>
   <link name="imu_link">
     <inertial>
       <origin xyz="-0.006331 -0.007725 -0.008045" rpy="0 0 0" />

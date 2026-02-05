@@ -10,7 +10,7 @@ viewer:
 
 terrain: plane
 
-num_envs: 1024 # 4096
+num_envs: 4096
 max_episode_length: 1000
 
 sim:
@@ -36,71 +36,26 @@ command:
 
   # Isaac Link Idx
   tracking_keypoint_names: [
-        "pelvis",
-        "hip_roll_l_link",
-        "hip_pitch_l_link",
-        "hip_yaw_l_link",
-        "knee_pitch_l_link",
-        "ankle_pitch_l_link",
-        "ankle_roll_l_link",
-        "hip_roll_r_link",
-        "hip_pitch_r_link",
-        "hip_yaw_r_link",
-        "knee_pitch_r_link",
-        "ankle_pitch_r_link",
-        "ankle_roll_r_link",
-        "body_yaw_link",
-        "head_yaw_link",
-        "head_pitch_link",
-        "head_roll_link",
-        "shoulder_pitch_l_link",
-        "shoulder_roll_l_link",
-        "shoulder_yaw_l_link",
-        "elbow_pitch_l_link",
-        "elbow_yaw_l_link",
-        "wrist_pitch_l_link",
-        "wrist_roll_l_link",
-        "shoulder_pitch_r_link",
-        "shoulder_roll_r_link",
-        "shoulder_yaw_r_link",
-        "elbow_pitch_r_link",
-        "elbow_yaw_r_link",
-        "wrist_pitch_r_link",
-        "wrist_roll_r_link"
+    "hip_(pitch|yaw)_.*_link",    # G1: ".*_hip_(pitch|yaw)_link",
+    "knee_pitch_.*_link",         # G1: ".*_knee_link",
+    "ankle_roll_.*_link",         # G1: ".*_ankle_roll_link",
+    "pelvis",                     # G1: "pelvis"
+    "body_yaw_link",              # G1: "torso_link",
+    "head_roll_link",             # head tracking 추가
+    "shoulder_pitch_.*_link",     # G1: ".*_shoulder_pitch_link",
+    "elbow_yaw_.*_link",          # G1: ".*_elbow_link",
+    "wrist_roll_.*_link",         # G1: ".*_wrist_yaw_link"
   ]
 
   # Isaac Joint Idx
   tracking_joint_names: [
-        "body_yaw_joint",
-        "hip_roll_l_joint",
-        "hip_roll_r_joint",
-        "head_yaw_joint",
-        "shoulder_pitch_l_joint",
-        "shoulder_pitch_r_joint",
-        "hip_pitch_l_joint",
-        "hip_pitch_r_joint",
-        "head_pitch_joint",
-        "shoulder_roll_l_joint",
-        "shoulder_roll_r_joint",
-        "hip_yaw_l_joint",
-        "hip_yaw_r_joint",
-        "head_roll_joint",
-        "shoulder_yaw_l_joint",
-        "shoulder_yaw_r_joint",
-        "knee_pitch_l_joint",
-        "knee_pitch_r_joint",
-        "elbow_pitch_l_joint",
-        "elbow_pitch_r_joint",
-        "ankle_pitch_l_joint",
-        "ankle_pitch_r_joint",
-        "elbow_yaw_l_joint",
-        "elbow_yaw_r_joint",
-        "ankle_roll_l_joint",
-        "ankle_roll_r_joint",
-        "wrist_pitch_l_joint",
-        "wrist_pitch_r_joint",
-        "wrist_roll_l_joint",
-        "wrist_roll_r_joint"
+      "body_yaw_joint",           # G1: "waist_.*_joint",
+      "head_.*_joint",            # head tracking 추가
+      "hip_.*_joint",             # G1: ".*_hip_.*_joint",
+      "knee_pitch_.*_joint",      # G1: ".*_knee_joint",
+      "ankle_.*_joint",           # G1: ".*_ankle_.*_joint",
+      "shoulder_.*_joint",        # G1: ".*_shoulder_.*_joint",
+      "elbow_pitch_.*_joint",     # G1: ".*_elbow_joint"
   ]
 
   root_body_name: ???
@@ -207,19 +162,19 @@ reward:
   # 1) Deep-Mimic based Robot Tracking
   tracking:
     tracking_upper_body_pos(keypoint_pos_tracking_local_product):
-      body_names: ["shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"]    # G1: ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
+      body_names: ["head_roll_link", "shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"]    # G1: ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
       weight: 0.5
       sigma: 0.5
 
     tracking_upper_body_ori(keypoint_ori_tracking_local_product):
-      body_names: ["shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"]    # G1: ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
+      body_names: ["head_roll_link", "shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"]    # G1: ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
       weight: 0.5
       sigma: 1.0
 
     tracking_lower_body_pos(keypoint_pos_tracking_local_product):
       body_names: ["hip_pitch_.*_link", "knee_pitch_.*_link", "ankle_roll_.*_link"]       # G1: ".*_hip_pitch_link", ".*_knee_link", ".*_ankle_roll_link"
-      weight: 0.5
-      sigma: 0.5
+      weight: 1 #0.5
+      sigma: 0.4
 
     tracking_lower_body_ori(keypoint_ori_tracking_local_product):
       body_names: ["hip_pitch_.*_link", "knee_pitch_.*_link", "ankle_roll_.*_link"]       # G1: ".*_hip_pitch_link", ".*_knee_link", ".*_ankle_roll_link"
@@ -247,12 +202,12 @@ reward:
       sigma: 2.5
 
     joint_pos_tracking_product:
-      joint_names: ["body_yaw_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_yaw_.*_joint"]  # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
+      joint_names: ["body_yaw_joint", "head_.*_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_pitch_.*_joint"]  # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
       weight: 0.5
       sigma: 0.25
 
     joint_vel_tracking_product:
-      joint_names: ["body_yaw_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_yaw_.*_joint"]  # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
+      joint_names: ["body_yaw_joint", "head_.*_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_pitch_.*_joint"]  # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
       weight: 0.5
       sigma: 2.5
 
@@ -274,11 +229,11 @@ reward:
   feet:
     impact_force_l2:    {weight: 1.0, enabled: true, body_names: ankle_roll_.*_link}                                  # G1: .*ankle_roll_link
     feet_slip:          {weight: 0.5, tolerance: 0.0, enabled: true, body_names: ankle_roll_.*_link}                  # G1: .*ankle_roll_link
-    feet_air_time:      {weight: 5.0, enabled: true, body_names: ankle_roll_.*link, thres: 0.5, soft_discount: 1.0}   # G1: .*ankle_roll_link
+    feet_air_time:      {weight: 3.0, enabled: true, body_names: ankle_roll_.*_link, thres: 0.4, soft_discount: 1.0}   # G1: .*ankle_roll_link
     survival:           {weight: 1.0, enabled: true}
   
   debug:
-    feet_air_time:      {weight: 5.0, enabled: false, body_names: ankle_roll_.*_link, thres: 0.2, soft_discount: 1.0} # G1: .*ankle_roll_link
+    feet_air_time:      {weight: 3.0, enabled: false, body_names: ankle_roll_.*_link, thres: 0.2, soft_discount: 1.0} # G1: .*ankle_roll_link
     feet_contact_count: {weight: 1.0, enabled: false, body_names: ankle_roll_.*_link}                                 # G1: .*ankle_roll_link
     joint_pos_limits:   {weight: 1.0, enabled: false, soft_factor: 0.9, joint_names: .*}
     eef_contact_all:    {weight: 1.0, enabled: false, frc_thres: 1.0, pos_thres: 0.1}
@@ -286,7 +241,7 @@ reward:
     root_ori_error(keypoint_ori_error):             {body_names: ["pelvis"], weight: 1.0, enabled: false}   # G1: pelvis
     body_pos_error_local(keypoint_pos_error_local): {body_names: ["hip_pitch_.*_link", "knee_pitch_.*_link", "ankle_roll_.*_link", "shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"], weight: 1.0, enabled: false}   # G1: ".*_hip_pitch_link", ".*_knee_link", ".*_ankle_roll_link", ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
     body_ori_error_local(keypoint_ori_error_local): {body_names: ["hip_pitch_.*_link", "knee_pitch_.*_link", "ankle_roll_.*_link", "shoulder_pitch_.*_link", "elbow_yaw_.*_link", "wrist_roll_.*_link"], weight: 1.0, enabled: false}   # G1: ".*_hip_pitch_link", ".*_knee_link", ".*_ankle_roll_link", ".*_shoulder_pitch_link", ".*_elbow_link", ".*_wrist_yaw_link"
-    joint_pos_error:             {joint_names: ["body_yaw_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_yaw_.*_joint"], weight: 1.0, enabled: false}                                                       # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
+    joint_pos_error:             {joint_names: ["body_yaw_joint", "hip_.*_joint", "knee_pitch_.*_joint", "shoulder_.*_joint", "elbow_pitch_.*_joint"], weight: 1.0, enabled: false}                                                       # G1: "waist_.*_joint", ".*_hip_.*_joint", ".*_knee_joint", ".*_shoulder_.*_joint", ".*_elbow_joint"
 
 # Common Randomization section
 randomization:

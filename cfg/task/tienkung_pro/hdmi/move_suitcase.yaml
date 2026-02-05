@@ -21,7 +21,7 @@ viewer:
 max_episode_length: 500
 
 robot:
-  name: TienkungPro           # g1
+  name: TienkungPro           # TienkungProTraining, TienkungPro
   robot_type: TienkungPro     # g1_29dof_rubberhand-feet_sphere-eef_box-body_capsule
   override_params:
     init_state:
@@ -47,8 +47,8 @@ command:
     - [-0.1,-0.18, 0.25]  # right wrist
 
   contact_eef_pos_offset:
-    - [0.0, 0.0, -0.11]   # wrist_roll_l      # G1: [0.05, 0.0, 0.0]  # left wrist
-    - [0.0, 0.0, -0.11]   # wrist_roll_r      # G1: [0.05, 0.0, 0.0]  # right wrist
+    - [0.0, 0.0, -0.05]   # wrist_roll_l      # G1: [0.05, 0.0, 0.0]  # left wrist
+    - [0.0, 0.0, -0.05]   # wrist_roll_r      # G1: [0.05, 0.0, 0.0]  # right wrist
 
 randomization:
   object_body_randomization:

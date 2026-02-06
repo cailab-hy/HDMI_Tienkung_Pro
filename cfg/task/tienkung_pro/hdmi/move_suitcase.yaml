@@ -21,7 +21,7 @@ viewer:
 max_episode_length: 500
 
 robot:
-  name: TienkungPro           # TienkungProTraining, TienkungPro
+  name: TienkungProTraining           # TienkungProTraining, TienkungPro
   robot_type: TienkungPro     # g1_29dof_rubberhand-feet_sphere-eef_box-body_capsule
   override_params:
     init_state:

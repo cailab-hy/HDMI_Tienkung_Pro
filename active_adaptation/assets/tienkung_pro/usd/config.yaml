@@ -1,5 +1,5 @@
-asset_path: /home/cai/IsaacLab/source/isaaclab_assets/data/tiangong2pro_urdf/urdf/tiangong2.0_pro_edit_joint_limit.urdf
-usd_dir: /home/cai/IsaacLab/source/isaaclab_assets/data/tiangong2pro_urdf/usd
+asset_path: /active_adaptation/assets/tienkung_pro/urdf/tiangong2.0_pro_edit_joint_limit.urdf
+usd_dir: /active_adaptation/assets/tienkung_pro/usd
 usd_file_name: tiangong2.0_pro_edit_joint_limit.usd
 force_usd_conversion: true
 make_instanceable: true

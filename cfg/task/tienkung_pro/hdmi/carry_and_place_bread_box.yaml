@@ -21,7 +21,7 @@ viewer:
   # eye: [-2., .5, 2.5]
 
 robot:
-  name: TienkungPro
+  name: TienkungProTraining           # TienkungProTraining, TienkungPro
   robot_type: TienkungPro
   override_params:
     init_state:

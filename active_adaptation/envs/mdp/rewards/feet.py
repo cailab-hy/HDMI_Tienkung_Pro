@@ -113,9 +113,13 @@ class feet_air_time(Reward):
         enabled: bool = True,
         soft_discount: float = 1.0,
         condition_on_linvel: bool = True,
+        max_air_time: float | None = None,
+        log_air_time: bool = False,
     ):
         super().__init__(env, weight, enabled)
         self.thres = thres
+        self.max_air_time = max_air_time
+        self.log_air_time = log_air_time
         self.asset: Articulation = self.env.scene["robot"]
         self.contact_sensor: ContactSensor = self.env.scene["contact_forces"]
         self.condition_on_linvel = condition_on_linvel
@@ -145,11 +149,29 @@ class feet_air_time(Reward):
             :, self.body_ids
         ]
         last_air_time = self.contact_sensor.data.last_air_time[:, self.body_ids]
-        self.reward = torch.sum(
-            (last_air_time - self.thres).clamp_max(0.0) * first_contact, dim=1, keepdim=True
-        )
+        if self.log_air_time:
+            # Current air-time stats (across all envs and feet)
+            self.env.extra["feet/air_time_current_mean"] = last_air_time.mean().item()
+            self.env.extra["feet/air_time_current_max"] = last_air_time.max().item()
+            # Swing-time stats at touchdown events only
+            swing_times = last_air_time[first_contact]
+            if swing_times.numel() > 0:
+                self.env.extra["feet/air_time_contact_mean"] = swing_times.mean().item()
+                self.env.extra["feet/air_time_contact_max"] = swing_times.max().item()
+        # Penalize too-short or too-long swing at the moment of first contact.
+        # Short swing: last_air_time < thres
+        shortfall = (self.thres - last_air_time).clamp_min(0.0)
+        penalty = shortfall
+        # Long swing: last_air_time > max_air_time
+        if self.max_air_time is not None:
+            longfall = (last_air_time - self.max_air_time).clamp_min(0.0)
+            penalty = penalty + longfall
+        self.reward = -torch.sum(penalty * first_contact, dim=1, keepdim=True)
         self.reward *= ~self.env.command_manager.is_standing_env
-        violation = ((last_air_time < self.thres) & first_contact).any(dim=1)
+        violation = (last_air_time < self.thres) & first_contact
+        if self.max_air_time is not None:
+            violation = violation | ((last_air_time > self.max_air_time) & first_contact)
+        violation = violation.any(dim=1)
         self.env.discount[violation] = self.soft_discount
         return self.reward
     
